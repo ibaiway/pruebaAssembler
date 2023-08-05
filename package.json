@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
+    "start": "node src/index.js",
     "dev": "node --watch src/index.js",
     "test": "npm run start:db && MONGO_URI=mongodb://user:pass@localhost:27018/?authMechanism=DEFAULT jest",
     "test:ci": "jest",
