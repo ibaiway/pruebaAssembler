@@ -1,0 +1,38 @@
+{
+  "name": "pruebaassembler",
+  "version": "1.0.0",
+  "description": "Una prueba para assembler",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "test": "npm run start:db && MONGO_URI=mongodb://user:pass@localhost:27018/?authMechanism=DEFAULT jest",
+    "start:db": "docker-compose up -d && npx wait-on tcp:27018 -t 5000",
+    "posttest": "docker-compose down"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    }
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^7.4.1"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.22.9",
+    "jest": "^29.6.2",
+    "standard": "^17.1.0",
+    "supertest": "^6.3.3",
+    "wait-on": "^7.0.1"
+  },
+  "eslintConfig": {
+    "extends": "standard",
+    "env": {
+      "jest": true
+    }
+  }
+}
