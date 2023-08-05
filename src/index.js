@@ -2,7 +2,7 @@ import 'dotenv/config'
 import connect from './database/db.js'
 import app from './app.js'
 
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 
 connect()
   .then(() => console.log('DB Connected'))
