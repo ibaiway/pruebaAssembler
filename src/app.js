@@ -4,7 +4,7 @@ import { isValidObjectId } from 'mongoose'
 const app = express()
 
 // Endpoint to get all products
-app.get('/products', async (req, res) => {
+app.get('/product', async (req, res) => {
   try {
     const products = await Product.find({})
 
