@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "node --watch src/index.js",
     "test": "npm run start:db && MONGO_URI=mongodb://user:pass@localhost:27018/?authMechanism=DEFAULT jest",
+    "test:ci": "jest",
     "start:db": "docker-compose up -d && npx wait-on tcp:27018 -t 5000",
     "posttest": "docker-compose down"
   },
