@@ -42,17 +42,24 @@ describe('GET /product/:id', () => {
     expect(response.body.description).toBe(product.description)
   })
 
-  it('should return 404 when given an invalid ID', async () => {
+  it('should return 404 when ID is not found', async () => {
     const response = await request(app).get('/product/123412341234')
 
     expect(response.status).toBe(404)
     expect(response.body.message).toBe('Product not found')
   })
 
+  it('should return 400 when ID format is not valid', async () => {
+    const response = await request(app).get('/product/123')
+
+    expect(response.status).toBe(400)
+    expect(response.body.message).toBe('Invalid ID')
+  })
+
   it('should return 500 when there is an error', async () => {
     jest.spyOn(Product, 'findById').mockRejectedValue(new Error('Database error'))
 
-    const response = await request(app).get('/product/123')
+    const response = await request(app).get('/product/123412341234')
 
     expect(response.status).toBe(500)
     expect(response.body.message).toBe('Something went wrong')
