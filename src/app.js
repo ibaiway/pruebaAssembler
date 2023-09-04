@@ -28,7 +28,7 @@ const logger = pino(
 app.get('/product', async (req, res) => {
   try {
     const products = await Product.find({})
-
+    res.set('Cache-control', 'public, max-age=300')
     res.json(products)
   } catch (error) {
     res.status(500).json({ message: 'Something went wrong' })
@@ -45,7 +45,7 @@ app.get('/product/:id', async (req, res) => {
   const cachedProduct = myCache.get(id)
   if (cachedProduct !== undefined) {
     logger.info({ id: cachedProduct._id, cache: true })
-    return res.json(cachedProduct).setHeader('Cache-Control', 'max-age=300')
+    return res.json(cachedProduct)
   }
 
   try {
