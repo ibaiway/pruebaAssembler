@@ -45,7 +45,7 @@ app.get('/product/:id', async (req, res) => {
   const cachedProduct = myCache.get(id)
   if (cachedProduct !== undefined) {
     logger.info({ id: cachedProduct._id, cache: true })
-    return res.json(cachedProduct)
+    return res.json(cachedProduct).setHeader('Cache-Control', 'max-age=300')
   }
 
   try {
