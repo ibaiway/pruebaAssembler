@@ -3,6 +3,7 @@ import Product from './models/product-model.js'
 import { isValidObjectId } from 'mongoose'
 import NodeCache from 'node-cache'
 import cors from 'cors'
+import { Axiom } from '@axiomhq/js'
 const app = express()
 
 app.use(cors({
@@ -10,6 +11,11 @@ app.use(cors({
 }))
 
 const myCache = new NodeCache()
+
+const axiom = new Axiom({
+  token: process.env.AXIOM_TOKEN,
+  orgId: process.env.AXIOM_ORG_ID
+})
 
 // Endpoint to get all products
 app.get('/product', async (req, res) => {
@@ -31,6 +37,7 @@ app.get('/product/:id', async (req, res) => {
 
   const cachedProduct = myCache.get(id)
   if (cachedProduct !== undefined) {
+    axiom.ingest('datadePrueba', [{ id: cachedProduct._id, cache: true }])
     return res.json(cachedProduct)
   }
 
@@ -41,7 +48,7 @@ app.get('/product/:id', async (req, res) => {
       return res.status(404).json({ message: 'Product not found' })
     }
     myCache.set(id, product, 5)
-
+    axiom.ingest('datadePrueba', [{ id: product._id, cache: false }])
     res.json(product)
   } catch (error) {
     res.status(500).json({ message: 'Something went wrong' })
