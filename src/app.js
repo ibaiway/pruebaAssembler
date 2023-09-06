@@ -44,7 +44,7 @@ app.get('/product/:id', async (req, res) => {
 
   const cachedProduct = myCache.get(id)
   if (cachedProduct !== undefined) {
-    logger.info({ id: cachedProduct._id, cache: true })
+    logger.info({ id: cachedProduct._id, cache: true, name: cachedProduct.name })
     return res.json(cachedProduct)
   }
 
@@ -54,8 +54,8 @@ app.get('/product/:id', async (req, res) => {
     if (!product) {
       return res.status(404).json({ message: 'Product not found' })
     }
-    myCache.set(id, product, 5)
-    logger.info({ id: product._id, cache: false })
+    myCache.set(id, product, 10)
+    logger.info({ id: product._id, cache: false, name: product.name })
     res.json(product)
   } catch (error) {
     res.status(500).json({ message: 'Something went wrong' })
